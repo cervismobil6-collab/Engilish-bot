@@ -1,37 +1,86 @@
+#!/usr/bin/env python3
+"""
+English AI Academy Bot - Main entry point
+A comprehensive AI-powered Telegram bot for learning English
+"""
+
+import asyncio
 import logging
-import telebot
+from telegram import Update
+from telegram.ext import Application, CommandHandler, MessageHandler, filters, ContextTypes
+from dotenv import load_dotenv
+import os
 
-from config import BOT_TOKEN
-from database import init_db
+# Load environment variables
+load_dotenv()
 
-from handlers import start, words, tests, grammar, speaking, ielts, ai, rating, profile, favorite, admin
-
-# --- Loglash sozlamalari ---
+# Configure logging
 logging.basicConfig(
-    level=logging.INFO,
-    format="%(asctime)s [%(levelname)s] %(message)s",
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+    level=logging.INFO
 )
 logger = logging.getLogger(__name__)
 
-# --- Bot obyektini yaratish ---
-bot = telebot.TeleBot(BOT_TOKEN, parse_mode="HTML")
+from config import config
+from handlers import start, menu, courses, ai_tutor, dictionary, tests, profile, premium, admin
+from database.connection import init_db
 
-# --- Ma'lumotlar bazasini tayyorlash ---
-init_db()
 
-# --- Barcha modullarni ro'yxatdan o'tkazish ---
-start.register(bot)
-words.register(bot)
-tests.register(bot)
-grammar.register(bot)
-speaking.register(bot)
-ielts.register(bot)
-ai.register(bot)
-rating.register(bot)
-profile.register(bot)
-favorite.register(bot)
-admin.register(bot)
+async def post_init(application: Application) -> None:
+    """Initialize bot data after setup"""
+    logger.info("Bot initialized successfully!")
+    await init_db()
+    logger.info("Database initialized!")
+
+
+async def error_handler(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Handle errors in the bot"""
+    logger.error(f"Update {update} caused error {context.error}")
+    if update and update.effective_message:
+        await update.effective_message.reply_text(
+            "❌ Xatolik yuz berdi. Qayta urinib ko'ring."
+        )
+
+
+def main() -> None:
+    """Start the bot"""
+    # Get bot token
+    token = config.TELEGRAM_BOT_TOKEN
+    if not token:
+        logger.error("TELEGRAM_BOT_TOKEN not found in environment variables")
+        return
+    
+    # Create application
+    application = Application.builder().token(token).post_init(post_init).build()
+    
+    # Add handlers
+    # Command handlers
+    application.add_handler(CommandHandler("start", start.start))
+    application.add_handler(CommandHandler("menu", menu.show_menu))
+    application.add_handler(CommandHandler("courses", courses.show_courses))
+    application.add_handler(CommandHandler("ai_tutor", ai_tutor.ai_tutor_start))
+    application.add_handler(CommandHandler("dictionary", dictionary.show_dictionary))
+    application.add_handler(CommandHandler("tests", tests.show_tests))
+    application.add_handler(CommandHandler("profile", profile.show_profile))
+    application.add_handler(CommandHandler("premium", premium.show_premium))
+    application.add_handler(CommandHandler("help", start.help_command))
+    
+    # Admin commands
+    application.add_handler(CommandHandler("admin", admin.admin_panel))
+    application.add_handler(CommandHandler("stats", admin.show_stats))
+    application.add_handler(CommandHandler("broadcast", admin.broadcast_message))
+    
+    # Message handlers
+    application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, menu.handle_message))
+    application.add_handler(MessageHandler(filters.VOICE, ai_tutor.handle_voice))
+    
+    # Error handler
+    application.add_error_handler(error_handler)
+    
+    # Start the bot
+    logger.info(f"Starting bot: @{config.BOT_USERNAME}")
+    application.run_polling(allowed_updates=Update.ALL_TYPES)
+
 
 if __name__ == "__main__":
-    logger.info("Bot ishga tushdi...")
-    bot.infinity_polling(skip_pending=True)
+    main()
