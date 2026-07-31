@@ -1,8 +1,8 @@
 """
-Handlers package for English AI Academy Bot
+Updated handlers/__init__.py with payment module
 """
 
-from . import start, menu, courses, ai_tutor, dictionary, tests, profile, premium, admin
+from . import start, menu, courses, ai_tutor, dictionary, tests, profile, premium, admin, payment
 
 __all__ = [
     'start',
@@ -13,5 +13,6 @@ __all__ = [
     'tests',
     'profile',
     'premium',
-    'admin'
+    'admin',
+    'payment'
 ]

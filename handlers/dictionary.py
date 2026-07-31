@@ -1,5 +1,5 @@
 """
-Dictionary handler
+Updated dictionary handler with callback support
 """
 
 from telegram import Update, InlineKeyboardMarkup, InlineKeyboardButton
@@ -35,4 +35,47 @@ Ro'yxatlardan birini tanlang:
     ]
     reply_markup = InlineKeyboardMarkup(keyboard)
     
-    await update.message.reply_text(text, reply_markup=reply_markup)
+    if update.message:
+        await update.message.reply_text(text, reply_markup=reply_markup)
+    else:
+        query = update.callback_query
+        await query.answer()
+        await query.edit_message_text(text, reply_markup=reply_markup)
+
+
+async def handle_dictionary_selection(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Handle dictionary category selection"""
+    query = update.callback_query
+    await query.answer()
+    
+    category = query.data.replace('dict_', '').upper()
+    
+    category_names = {
+        'FAMILY': 'Oila',
+        'SCHOOL': 'Maktab',
+        'FOOD': 'Ovqat',
+        'HEALTH': 'Sog\'liq',
+        'TRAVEL': 'Sayohat',
+        'WORK': 'Ish',
+        'EXPRESSIONS': 'Ifodalar'
+    }
+    
+    text = f"""
+📚 **{category_names.get(category, category)}**
+
+Bu kategoriya bo'yicha so'z va iboralari:
+
+🔸 English translation
+🔹 Uzbek tarjimasi
+🎯 Pronunciation
+📝 Misollar
+
+⏳ So'zlar yuklanmoqda...
+    """
+    
+    keyboard = [
+        [InlineKeyboardButton("⬅️ Orqaga", callback_data="back_dict")]
+    ]
+    reply_markup = InlineKeyboardMarkup(keyboard)
+    
+    await query.edit_message_text(text, reply_markup=reply_markup)
