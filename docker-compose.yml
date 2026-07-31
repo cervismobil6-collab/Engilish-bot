@@ -1,0 +1,55 @@
+version: '3.8'
+
+services:
+  english-bot:
+    build: .
+    container_name: english-ai-bot
+    restart: always
+    environment:
+      - TELEGRAM_BOT_TOKEN=${TELEGRAM_BOT_TOKEN}
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - DATABASE_URL=${DATABASE_URL}
+      - ADMIN_ID=${ADMIN_ID}
+      - ENVIRONMENT=production
+    volumes:
+      - ./logs:/app/logs
+      - ./.env:/app/.env:ro
+    networks:
+      - bot-network
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+  
+  mongodb:
+    image: mongo:latest
+    container_name: english-bot-db
+    restart: always
+    environment:
+      - MONGO_INITDB_DATABASE=english_ai_academy
+    volumes:
+      - mongo_data:/data/db
+    networks:
+      - bot-network
+    ports:
+      - "27017:27017"
+  
+  redis:
+    image: redis:latest
+    container_name: english-bot-cache
+    restart: always
+    volumes:
+      - redis_data:/data
+    networks:
+      - bot-network
+    ports:
+      - "6379:6379"
+
+volumes:
+  mongo_data:
+  redis_data:
+
+networks:
+  bot-network:
+    driver: bridge
