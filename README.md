@@ -1,106 +1,286 @@
-# 🤖 English Learning Telegram Bot
+# 📚 English AI Academy Bot
 
-Ingliz tilini professional darajada o'rgatuvchi Telegram bot: so'zlar, testlar, grammar,
-speaking, IELTS, AI yordamchi, reyting, profil, daily streak, favorite va admin panel.
+A comprehensive AI-powered Telegram bot for learning English with personalized lessons, AI tutor support, premium features, and more.
 
-## 📁 Loyiha tuzilishi
+## ✨ Features
 
-```
-english_bot/
-├── main.py              # botni ishga tushiruvchi asosiy fayl
-├── config.py            # TOKEN va sozlamalar (Environment Variables orqali)
-├── database.py          # SQLite bilan ishlash (users, favorites, streak, points)
-├── requirements.txt     # kerakli kutubxonalar
-├── Procfile             # Railway/Render uchun ishga tushirish buyrug'i
-├── runtime.txt           # Python versiyasi
-├── data/
-│   ├── words.json        # so'zlar bazasi (10000+ tagacha kengaytiriladi)
-│   ├── tests.json         # test savollari (5000+ tagacha kengaytiriladi)
-│   └── grammar.json       # grammatika mavzulari
-└── handlers/
-    ├── start.py            # /start va asosiy menyu
-    ├── words.py            # 📚 So'zlar
-    ├── tests.py            # 📝 Testlar
-    ├── grammar.py          # 📖 Grammar
-    ├── speaking.py         # 🗣 Speaking (ovozni AI orqali tekshirish)
-    ├── ielts.py            # 🎯 IELTS Writing tekshiruvi
-    ├── ai.py               # 🤖 AI yordamchi (Claude API)
-    ├── rating.py           # 🏆 Reyting
-    ├── profile.py          # 👤 Profil
-    ├── favorite.py         # ❤️ Favorite
-    └── admin.py            # 👨‍💼 Admin panel
-```
+### 📖 Main Menu
+- **📚 Kurslar** - View and manage courses
+- **🤖 AI Ustoz** - Ask AI tutor anything about English
+- **📖 Lug'at** - Dictionary with translations, pronunciation, examples
+- **📝 Testlar** - Practice tests with instant feedback
+- **👤 Profil** - User profile and progress tracking
+- **💳 Premium** - Premium subscription management
 
-## ⚙️ 1-qadam: Pydroid 3'da mahalliy sinash
+### 🎓 Courses
+- **A1 Beginner** to **C1 Advanced** - 6 levels
+- **120 comprehensive lessons** total
+- Each lesson includes:
+  - 📖 Theory and explanation
+  - 📝 Practical exercises
+  - 🎯 10 test questions
+  - 📊 Performance feedback
 
-1. Pydroid 3'ni oching, **Pip** bo'limidan quyidagilarni o'rnating:
-   ```
-   pyTelegramBotAPI requests SpeechRecognition pydub
-   ```
-2. Ushbu `english_bot` papkasini telefoningizga ko'chiring.
-3. `config.py` faylida `BOT_TOKEN` o'rniga o'z tokeningizni yozing (faqat sinash uchun;
-   productionda Environment Variable ishlating).
-4. `main.py` faylini ishga tushiring.
+### 🤖 AI Tutor
+Ask anything about English:
+- Grammar explanations
+- Sentence corrections with detailed explanations
+- Speaking practice
+- New vocabulary lessons
+- IELTS exam preparation
 
-> ⚠️ Speaking moduli `pydub` uchun `ffmpeg` talab qiladi. Pydroid 3'da ffmpeg bo'lmasligi
-> mumkin — bu holda Speaking funksiyasi xato beradi, lekin qolgan barcha funksiyalar
-> ishlayveradi. Serverga (Render/Railway) joylaganda ffmpeg avtomatik o'rnatiladi.
+### 📖 Dictionary
+Categories:
+- 👨 Family
+- 🏫 School
+- 🍔 Food
+- 🏥 Hospital
+- ✈️ Travel
+- 💼 Work
+- ❤️ Daily Expressions
 
-## 🔑 2-qadam: Bot tokenini olish
+Each word includes:
+- English translation
+- Uzbek translation
+- Pronunciation
+- Example sentences
 
-1. Telegram'da [@BotFather](https://t.me/BotFather) ga yozing.
-2. `/newbot` buyrug'ini yuboring, nom va username bering.
-3. Sizga beriladigan tokenni saqlab qo'ying.
+### 📝 Tests
+- 10 questions per lesson
+- Instant results
+- Error analysis
+- Detailed explanations
 
-## 🌐 3-qadam: Railway'ga 24/7 joylash (tavsiya etiladi)
+### 👤 Profile
+- User information
+- Level and progress tracking
+- Completed lessons
+- Premium status
+- Join date
 
-1. [railway.app](https://railway.app) da ro'yxatdan o'ting (GitHub orqali).
-2. Loyihani GitHub'ga yuklang (quyida yo'riqnoma).
-3. Railway'da **New Project → Deploy from GitHub repo** tanlang.
-4. **Variables** bo'limiga quyidagilarni qo'shing:
-   - `BOT_TOKEN` — BotFather'dan olingan token
-   - `ADMIN_IDS` — sizning Telegram ID'ingiz (masalan: `123456789`)
-   - `ANTHROPIC_API_KEY` — AI funksiyalari uchun (ixtiyoriy)
-5. Railway avtomatik `Procfile`ni o'qib, `worker: python main.py` buyrug'ini ishga tushiradi.
-6. Deploy tugagach, bot 24/7 ishlaydi.
+### 💳 Premium Plans
+- **🥉 1 Month** - 29,999 som
+- **🥈 3 Months** - 79,999 som
+- **🥇 Lifetime** - 299,999 som
 
-## 🌐 3-qadam (muqobil): Render'ga joylash
+Payment methods:
+- Uzcard
+- Humo
+- Click
+- Payme
 
-1. [render.com](https://render.com) da **New → Background Worker** tanlang.
-2. GitHub repo'ni ulang.
-3. **Build Command:** `pip install -r requirements.txt`
-4. **Start Command:** `python main.py`
-5. **Environment** bo'limiga `BOT_TOKEN`, `ADMIN_IDS`, `ANTHROPIC_API_KEY` qo'shing.
-6. Deploy qiling — Render bepul rejada worker'lar vaqti-vaqti bilan uxlab qolishi mumkin,
-   shuning uchun to'liq 24/7 uchun pullik reja yoki Railway tavsiya etiladi.
+### 👑 Additional Features
+- ⭐ Daily streak system
+- 🏆 Leaderboard (Top 10)
+- 🎁 Referral system
+- 📅 Daily reminders
+- 🎓 Certificates for completed courses
+- 📊 Detailed analytics
+- 🌙 Dark mode
+- 🔔 Notifications
 
-## 📤 GitHub'ga yuklash (agar hali qilmagan bo'lsangiz)
+### 👨‍💻 Admin Panel
+- 📊 Statistics
+- 👤 User management
+- 📚 Add/edit lessons
+- 👑 Grant premium access
+- 📢 Send broadcast messages
+- 💰 Verify payments
 
+## 🚀 Installation
+
+### Prerequisites
+- Python 3.10+
+- MongoDB
+- Redis (optional, for caching)
+- OpenAI API key
+- Telegram Bot Token
+
+### Setup
+
+1. **Clone the repository**
 ```bash
-cd english_bot
-git init
-git add .
-git commit -m "Initial commit"
-git branch -M main
-git remote add origin https://github.com/SIZNING_USERNAME/english_bot.git
-git push -u origin main
+git clone https://github.com/cervismobil6-collab/Engilish-bot.git
+cd Engilish-bot
 ```
 
-## 📈 So'zlar va testlarni 10000+ / 5000+ tagacha kengaytirish
+2. **Create virtual environment**
+```bash
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+```
 
-`data/words.json` va `data/tests.json` fayllari oddiy JSON ro'yxat — shu formatda
-davom ettirib, xohlagancha so'z/test qo'shishingiz mumkin. Katta hajmda ma'lumot
-qo'shmoqchi bo'lsangiz, Excel/CSV fayldan JSON'ga aylantirib olish ham mumkin —
-shunga alohida yordam bera olaman.
+3. **Install dependencies**
+```bash
+pip install -r requirements.txt
+```
 
-## 👨‍💼 Admin panelga kirish
+4. **Setup environment variables**
+```bash
+cp .env.example .env
+# Edit .env and add your API keys
+```
 
-`config.py` (yoki Environment Variables) dagi `ADMIN_IDS` ro'yxatiga o'z Telegram
-ID'ingizni qo'shing. ID'ni bilmasangiz [@userinfobot](https://t.me/userinfobot) ga yozing.
-Keyin botga `/admin` buyrug'ini yuboring.
+5. **Run the bot**
+```bash
+python main.py
+```
 
-## 🤖 AI funksiyalarini yoqish
+## 🔧 Configuration
 
-`ANTHROPIC_API_KEY` ni [console.anthropic.com](https://console.anthropic.com) dan olib,
-Environment Variable sifatida qo'shsangiz, 🤖 AI, 🗣 Speaking va 🎯 IELTS
-bo'limlaridagi AI baholash ishga tushadi.
+All configuration is in `.env` file:
+
+```env
+TELEGRAM_BOT_TOKEN=your_token_here
+OPENAI_API_KEY=your_openai_key
+DATABASE_URL=your_mongodb_url
+# ... other settings
+```
+
+## 📚 Project Structure
+
+```
+english-ai-academy-bot/
+├── main.py                 # Bot entry point
+├── config.py              # Configuration
+├── requirements.txt       # Dependencies
+├── .env.example          # Environment template
+├── .gitignore            # Git ignore rules
+│
+├── handlers/             # Message handlers
+│   ├── start.py
+│   ├── menu.py
+│   ├── courses.py
+│   ├── ai_tutor.py
+│   ├── dictionary.py
+│   ├── tests.py
+│   ├── profile.py
+│   ├── premium.py
+│   └── admin.py
+│
+├── database/             # Database operations
+│   ├── models.py
+│   ├── connection.py
+│   └── queries.py
+│
+├── ai/                   # AI integration
+│   ├── openai_service.py
+│   └── prompts.py
+│
+├── utils/                # Utilities
+│   ├── logger.py
+│   └── decorators.py
+│
+└── tests/                # Test files
+    └── test_bot.py
+```
+
+## 🎯 Bot Commands
+
+### User Commands
+```
+/start - Start the bot
+/menu - Main menu
+/courses - View courses
+/ai_tutor - Talk with AI tutor
+/dictionary - Open dictionary
+/tests - Practice tests
+/profile - View profile
+/premium - Premium plans
+/leaderboard - Top users
+/help - Help
+```
+
+### Admin Commands
+```
+/admin - Admin panel
+/stats - Bot statistics
+/users - User management
+/broadcast - Send message to all users
+/add_lesson - Add new lesson
+/add_premium - Grant premium
+/verify_payment - Verify payments
+```
+
+## 🔐 Security
+
+- API keys stored in `.env` (never commit)
+- `.env` in `.gitignore`
+- User data encrypted in database
+- Payment verification implemented
+- Admin-only commands protected
+
+## 📊 Database Schema
+
+### Users
+```
+{
+  _id: ObjectId,
+  telegram_id: Number,
+  username: String,
+  first_name: String,
+  level: String (A1-C1),
+  completed_lessons: [ObjectId],
+  premium: {
+    active: Boolean,
+    expires_at: Date,
+    plan: String (1month, 3month, lifetime)
+  },
+  streak: Number,
+  coins: Number,
+  created_at: Date,
+  updated_at: Date
+}
+```
+
+### Lessons
+```
+{
+  _id: ObjectId,
+  level: String,
+  lesson_number: Number,
+  title: String,
+  content: String,
+  examples: [String],
+  exercises: [Object],
+  tests: [Object]
+}
+```
+
+### Payments
+```
+{
+  _id: ObjectId,
+  user_id: ObjectId,
+  amount: Number,
+  method: String,
+  transaction_id: String,
+  status: String (pending, completed, failed),
+  created_at: Date
+}
+```
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit changes (`git commit -m 'Add AmazingFeature'`)
+4. Push to branch (`git push origin feature/AmazingFeature`)
+5. Open Pull Request
+
+## 📝 License
+
+This project is licensed under the MIT License.
+
+## 💬 Support
+
+For support, contact admin: [@jasurdos](https://t.me/jasurdos)
+
+## 📞 Contact
+
+- Bot: [@engilishpromax_bot](https://t.me/engilishpromax_bot)
+- Admin: [@jasurdos](https://t.me/jasurdos)
+
+---
+
+**Made with ❤️ for English learners**
